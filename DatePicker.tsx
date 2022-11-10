@@ -63,7 +63,6 @@
 //     </div>
 //   );
 // };
-// export default DatePicker;
 
 import React, { useState } from 'react';
 import { getYear } from 'date-fns'; // year을 표시하기 위함입니다.
@@ -73,96 +72,22 @@ import ko from 'date-fns/locale/ko'; //한국어로
 registerLocale('ko', ko); //한국어로
 const _ = require('lodash'); //_.range를 표현하기 위한 겁니다.
 
-export default funcion DatePicker() {
+const DatePicker = () => {
+  const calendar = useRef(null);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
-  const [startDate, setStartDate] = useState(new Date());
-  const years = _.range(1990, getYear(new Date()) + 1, 1); // 수정
-  const months = [
-    '01',
-    '02',
-    '03',
-    '04',
-    '05',
-    '06',
-    '07',
-    '08',
-    '09',
-    '10',
-    '11',
-    '12',
-  ];
-  const [isOpen, setIsOpen] = useState(false);
-  const handleChange = (e: any) => {
-    setStartDate(e);
+  const onChange = (date) => {
+    const [start, end] = date;
+    setStartDate(start);
+    setEndDate(end);
   };
+  const [month, setMonth] = useState(new Date().getMonth());
+  const [date, setDate] = useState(new Date());
 
-  const handleClick = (e: any) => {
-    e.preventDefault();
-    setIsOpen(!isOpen);
-    setStartDate(new Date());
+  const handleMonthChange = (date) => {
+    setMonth(date.getMonth());
   };
-  const formatDate = (d) => {
-    //달력 년, 월, 일 header
-    const date = new Date(d);
-    const monthIndex = date.getMonth() + 1;
-    const year = date.getFullYear();
-    return `${year}년 ${`0${monthIndex}`.slice(-2)}`;
-  };
-  render() {
-    const years = _.range(1990, getYear(new Date()) + 1, 1);
-    const months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ]; //month표시
-    return (
-      <div>
-        <DatePicker
-          locale="ko"
-          showPopperArrow={false}
-          fixedHeight
-          selected={this.state.startDate}
-          onChange={(date) =>
-            setState()
-          }
-          renderCustomHeader={({
-            date,
-            decreaseMonth,
-            increaseMonth,
-            prevMonthButtonDisabled,
-            nextMonthButtonDisabled,
-          }) => (
-            <div className="date-customheader">
-              <button
-                onClick={decreaseMonth}
-                disabled={prevMonthButtonDisabled}
-              >
-                <i className="icon-arrow-left32" /> //icomoon 폰트입니다.
-              </button>
-              //select 안넣을 거니까 년,월 표시하는 것만 넣었습니다.
-              <div className="custom-month">
-                {date.getFullYear()}년 {months[date.getMonth()]}
-              </div>
-              <button
-                onClick={increaseMonth}
-                disabled={nextMonthButtonDisabled}
-              >
-                <i className="icon-arrow-right32" /> //icomoon폰트입니다.
-              </button>
-            </div>
-          )}
-        />
-      </div>
-    );
-  }
-}
+};
 
+export default DatePicker;
