@@ -88,6 +88,41 @@ const DatePicker = () => {
   const handleMonthChange = (date) => {
     setMonth(date.getMonth());
   };
+  return (
+    <div>
+      <DatePicker
+        locale="ko"
+        showPopperArrow={false}
+        fixedHeight
+        selected={this.state.startDate}
+        onChange={(date) =>
+          this.setState({
+            startDate: date,
+          })
+        }
+        renderCustomHeader={({
+          date,
+          decreaseMonth,
+          increaseMonth,
+          prevMonthButtonDisabled,
+          nextMonthButtonDisabled,
+        }) => (
+          <div className="date-customheader">
+            <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled}>
+              <i className="icon-arrow-left32" /> //icomoon 폰트입니다.
+            </button>
+            //select 안넣을 거니까 년,월 표시하는 것만 넣었습니다.
+            <div className="custom-month">
+              {date.getFullYear()}년 {months[date.getMonth()]}
+            </div>
+            <button onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
+              <i className="icon-arrow-right32" /> //icomoon폰트입니다.
+            </button>
+          </div>
+        )}
+      />
+    </div>
+  );
 };
 
 export default DatePicker;
